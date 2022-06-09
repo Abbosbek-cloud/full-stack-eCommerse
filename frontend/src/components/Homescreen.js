@@ -5,6 +5,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Product from "./Product";
 import { Helmet } from "react-helmet-async";
+import Loading from "./Loading";
+import ErrorBox from "./ErrorBox";
+import { getError } from "../utils";
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -36,6 +39,7 @@ const Homescreen = () => {
     loading: true,
     error: "",
   });
+
   useEffect(() => {
     const fetchDataFromBackend = async () => {
       dispatch({ type: "FETCHING_DATA" });
@@ -44,11 +48,12 @@ const Homescreen = () => {
         dispatch({ type: "FETCHED_DATA", payload: response.data });
         console.log(response);
       } catch (err) {
-        dispatch({ type: "FETCH_FAIL", payload: err.message });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
     fetchDataFromBackend();
   }, []);
+
   return (
     <div>
       <Helmet>
@@ -57,9 +62,9 @@ const Homescreen = () => {
       <h1>Home Page</h1>
       <div className="container">
         {loading ? (
-          <div>Loading...</div>
+          <Loading />
         ) : error ? (
-          <div>{error}</div>
+          <ErrorBox variant="danger">{error}</ErrorBox>
         ) : (
           <Row>
             {products.map((card) => (

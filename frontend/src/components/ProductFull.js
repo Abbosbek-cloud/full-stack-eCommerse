@@ -10,6 +10,9 @@ import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Rating from "./Rating";
 import { Helmet } from "react-helmet-async";
+import Loading from "./Loading";
+import ErrorBox from "./ErrorBox";
+import { getError } from "../utils";
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -52,17 +55,16 @@ const ProductFull = () => {
         dispatch({ type: "FETCHED_DATA", payload: response.data });
         console.log(response);
       } catch (err) {
-        dispatch({ type: "FETCH_FAIL", payload: err.message });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
     fetchDataFromBackend();
   }, [slug]);
 
-  console.log(product);
   return loading ? (
-    <div>Loading...</div>
+    <Loading />
   ) : error ? (
-    <div>{error}</div>
+    <ErrorBox variant="danger">{error}</ErrorBox>
   ) : (
     <Row>
       <Helmet>
