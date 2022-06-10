@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import logger from "use-reducer-logger";
 import Row from "react-bootstrap/Row";
@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import Loading from "./Loading";
 import ErrorBox from "./ErrorBox";
 import { getError } from "../utils";
+import { Store } from "../Store";
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
@@ -47,6 +48,7 @@ const ProductFull = () => {
     loading: true,
     error: "",
   });
+
   useEffect(() => {
     const fetchDataFromBackend = async () => {
       dispatch({ type: "FETCHING_DATA" });
@@ -60,6 +62,15 @@ const ProductFull = () => {
     };
     fetchDataFromBackend();
   }, [slug]);
+
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+
+  const addToCartHandler = () => {
+    ctxDispatch({
+      type: "ADD_TO_CART",
+      payload: { ...product, quantity: 1 },
+    });
+  };
 
   return loading ? (
     <Loading />
@@ -114,7 +125,9 @@ const ProductFull = () => {
             {product.countInStock > 0 && (
               <ListGroup.Item>
                 <div className="d-grid">
-                  <Button variant="primary">Add to Cart</Button>
+                  <Button onClick={addToCartHandler} variant="primary">
+                    Add to Cart
+                  </Button>
                 </div>
               </ListGroup.Item>
             )}
