@@ -6,11 +6,13 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import { Helmet } from "react-helmet-async";
 import { Store } from "../Store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MessageBox from "./MessageBox";
 import axios from "axios";
 
 const CartPage = () => {
+  const navigate = useNavigate();
+
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
@@ -34,6 +36,10 @@ const CartPage = () => {
 
   const removeItem = (item) => {
     ctxDispatch({ type: "REMOVE_ITEM", payload: item });
+  };
+
+  const checkOutHandler = () => {
+    navigate("/signin?redirect=/shipping");
   };
 
   return (
@@ -127,6 +133,7 @@ const CartPage = () => {
                       type="button"
                       variant="primary"
                       disabled={cartItems.length === 0}
+                      onClick={checkOutHandler}
                     >
                       Checkout Proceed
                     </Button>
