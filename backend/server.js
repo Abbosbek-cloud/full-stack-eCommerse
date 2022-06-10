@@ -14,6 +14,14 @@ app.get("/api/v1/products/slug/:slug", (req, res) => {
     : res.status(404).send({ message: "Product Not Found" });
 });
 
+app.get("/api/v1/products/:id", (req, res) => {
+  const product = data.products.find((card) => card._id === req.params.id);
+  console.log(req.params.id);
+  product
+    ? res.send(product)
+    : res.status(404).send({ message: "Product Not Found" });
+});
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {

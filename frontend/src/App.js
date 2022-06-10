@@ -17,6 +17,9 @@ function App() {
   const { cart } = state;
   console.log(cart);
 
+  cart.cartItems.reduce((acc, curr) => acc + curr.quantity, 0);
+
+  console.log("quantity", cart.cartItems.quantity);
   return (
     <div className="d-flex flex-column site-container">
       <header>
@@ -39,7 +42,7 @@ function App() {
                       textAlign: "center",
                     }}
                   >
-                    {cart.cartItems.length}
+                    {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                   </Badge>
                 )}
               </Link>
