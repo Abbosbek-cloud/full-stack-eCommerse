@@ -50,8 +50,6 @@ const ProductFull = () => {
     error: "",
   });
 
-  console.log(product);
-
   useEffect(() => {
     const fetchDataFromBackend = async () => {
       dispatch({ type: "FETCHING_DATA" });
