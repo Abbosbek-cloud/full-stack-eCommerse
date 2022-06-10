@@ -10,8 +10,16 @@ a {
   text-decoration: none;
 }
 
-.site-container{
+.site-container {
   min-height: 100vh;
 }
 
+.img-thumbnail {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+}
 
+.p-left-0 {
+  padding-left: 0 !important;
+}
